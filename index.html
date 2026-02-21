@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Canvas Assignment Builder</title>
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <header class="top-bar">
+      <div class="logo">CanvasCraft</div>
+      <nav class="top-links">
+        <button class="ghost-button">My Assignments</button>
+        <button class="ghost-button status-pill">
+          Canvas: <span class="status-good">Connected</span>
+        </button>
+      </nav>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1>Turn a handwritten assignment into a Canvas post</h1>
+        <p>Upload a photo and review the extracted details before publishing.</p>
+      </section>
+
+      <section class="stepper">
+        <div class="step is-active" data-step="1">
+          <span class="step-index">1</span>
+          <span class="step-label">Upload</span>
+        </div>
+        <div class="step" data-step="2">
+          <span class="step-index">2</span>
+          <span class="step-label">Review &amp; Edit</span>
+        </div>
+        <div class="step" data-step="3">
+          <span class="step-index">3</span>
+          <span class="step-label">Post to Canvas</span>
+        </div>
+      </section>
+
+      <section class="card step-panel" data-panel="1">
+        <div class="upload-grid">
+          <div class="upload-dropzone" id="dropzone">
+            <div class="upload-icon">⬆</div>
+            <h2>Drag &amp; drop your assignment image</h2>
+            <p>Upload a photo or PDF. We extract tasks, dates, and points.</p>
+            <div class="upload-actions">
+              <label class="primary-button">
+                Upload image
+                <input type="file" id="fileInput" accept="image/*,.pdf" hidden />
+              </label>
+              <button class="secondary-button" id="cameraButton">Take photo</button>
+            </div>
+            <div class="upload-tips">
+              <span>Good lighting</span>
+              <span>Straight angle</span>
+              <span>Single page</span>
+            </div>
+          </div>
+          <div class="trust-card">
+            <h3>Privacy and security</h3>
+            <p>Your image is processed securely and deleted after 24 hours.</p>
+            <p class="mini-muted">We never post anything without your review.</p>
+          </div>
+        </div>
+      </section>
+
+      <section class="card step-panel is-hidden" data-panel="2">
+        <div class="review-grid">
+          <div class="image-panel">
+            <div class="image-preview">
+              <div class="image-placeholder">Image preview</div>
+            </div>
+            <div class="image-tools">
+              <button class="ghost-button">Crop</button>
+              <button class="ghost-button">Rotate</button>
+              <button class="ghost-button">Zoom</button>
+              <button class="ghost-button">Improve clarity</button>
+            </div>
+            <div class="confidence-note">
+              OCR confidence overlay is enabled for low confidence regions.
+            </div>
+          </div>
+          <div class="form-panel">
+            <div class="panel-header">
+              <h2>Confirm extracted details</h2>
+              <div class="issues-pill">2 items need review</div>
+            </div>
+
+            <div class="field-card">
+              <label>Title</label>
+              <div class="field-row">
+                <input type="text" value="Unit 4 Reflection Essay" />
+                <span class="chip chip-high">High</span>
+              </div>
+            </div>
+
+            <div class="field-card">
+              <label>Description</label>
+              <div class="field-row">
+                <textarea rows="3">Write a 500 word reflection on Chapter 7.</textarea>
+                <span class="chip chip-medium">Medium</span>
+              </div>
+            </div>
+
+            <div class="field-card">
+              <label>Due date</label>
+              <div class="field-row">
+                <input type="date" />
+                <span class="chip chip-low">Low</span>
+              </div>
+              <p class="field-hint">Please verify the due date.</p>
+            </div>
+
+            <div class="field-card">
+              <label>Points</label>
+              <div class="field-row">
+                <input type="number" value="50" />
+                <span class="chip chip-high">High</span>
+              </div>
+            </div>
+
+            <div class="field-card">
+              <label>Instructions</label>
+              <div class="field-row">
+                <textarea rows="4">Use MLA format and include citations.</textarea>
+                <span class="chip chip-medium">Medium</span>
+              </div>
+            </div>
+
+            <details class="ai-suggestions">
+              <summary>AI suggestions</summary>
+              <p>Detected tasks: write essay, include citations, submit as PDF.</p>
+            </details>
+
+            <div class="action-row">
+              <button class="primary-button" data-next="3">Create Canvas assignment</button>
+              <button class="ghost-button" data-back="1">Back to upload</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="card step-panel is-hidden" data-panel="3">
+        <div class="post-grid">
+          <div class="post-form">
+            <h2>Post to Canvas</h2>
+            <div class="field-card">
+              <label>Course</label>
+              <input type="text" placeholder="Search courses..." />
+            </div>
+            <div class="field-card">
+              <label>Assignment type</label>
+              <div class="segmented">
+                <button class="segmented-button is-active">Online</button>
+                <button class="segmented-button">No submission</button>
+                <button class="segmented-button">On paper</button>
+              </div>
+            </div>
+            <div class="field-card toggle-row">
+              <label>Publish immediately</label>
+              <label class="switch">
+                <input type="checkbox" checked />
+                <span class="slider"></span>
+              </label>
+            </div>
+            <div class="action-row">
+              <button class="primary-button" id="postButton">Post to Canvas</button>
+              <button class="ghost-button" data-back="2">Back to review</button>
+            </div>
+            <div class="progress" id="postProgress">
+              <div class="progress-bar"></div>
+              <span>Posting...</span>
+            </div>
+          </div>
+          <div class="preview-card">
+            <h3>Assignment preview</h3>
+            <div class="preview-body">
+              <div class="preview-title">Unit 4 Reflection Essay</div>
+              <div class="preview-meta">Due: Feb 28, 11:59 PM</div>
+              <p>Write a 500 word reflection on Chapter 7.</p>
+            </div>
+            <div class="success-card" id="successCard">
+              <h4>Posted successfully</h4>
+              <button class="secondary-button">Open in Canvas</button>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="footer">
+      <span>Built for quick posting with review-first safeguards.</span>
+    </footer>
+
+    <script src="app.js"></script>
+  </body>
+</html>
