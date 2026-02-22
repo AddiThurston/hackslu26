@@ -6,7 +6,7 @@ Collaborators: Addison Thurston, Henry Beblo, Henry Morgan, Carter DeLargy
 
 ### What It Does:
 
-Creates assignments/quizzes on Canvas based off of images/text prompts.
+Creates assignments/quizzes on Canvas based off of images/text prompts and publish/unpublish/delete exisiting Canvas assignments.
 
 ### How Does It Work?
 
