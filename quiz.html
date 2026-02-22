@@ -18,10 +18,10 @@
                 <button class="button3">My Assignments</button>
             </a>
             <a href="index.html">
-                <button class="button1">Generate Assignment</button>
+                <button class="button3">Generate Assignment</button>
             </a>
             <a href="quiz.html">
-                <button class="button3">Generate Quiz</button>
+                <button class="button1">Generate Quiz</button>
             </a>
             <a href="login.html">
                 <button class="button3">Login/Logout</button>
@@ -35,62 +35,44 @@
     <main class="container">
         <!-- Instructions and info -->
         <section class="instructions">
-            <h1> Turn your handwritten assignment description into a Canvas post </h1>
-            <p> Upload a photo and review the extracted details before publishing. </p>
+            <h1> Turn your lecture material into a Canvas quiz </h1>
+            <p> Upload a pdf of the material and review the extracted questions. </p>
         </section>
 
-        <!-- Select the step in assignment creation -->
+        <!-- Select the step in quiz creation -->
         <section class="stepper">
-            <!-- Upload pic of assignment description -->
+            <!-- Upload pic of quiz material -->
             <div class="step is-active" data-step="1">
                 <span class="step-index"> 1 </span>
-                <span> Upload Assignment Info </span>
+                <span> Upload Quiz Material </span>
             </div>
 
-            <!-- Refine/check assignment info -->
+            <!-- Refine/check quiz questions -->
             <div class="step" data-step="2">
                 <span class="step-index"> 2 </span>
                 <span> Review &amp; Edit </span>
             </div>
 
-            <!-- Post assignment -->
+            <!-- Post quiz -->
             <div class="step" data-step="3">
                 <span class="step-index"> 3 </span>
                 <span> Post to Canvas </span>
             </div>
         </section>
 
-        <!-- Upload assignment info -->
+        <!-- Upload quiz material -->
         <section class="card step-panel" data-panel="1">
             <div class="stack">
                 <div id="dropzone" class="upload-dropzone">
                     <div class="upload-icon"> ⬆ </div>
-                    <h2> Drag &amp; drop your assignment description </h2>
-                    <p> Upload a photo or PDF assignment description </p>
+                    <h2> Drag &amp; drop your lecture notes </h2>
+                    <p> Upload a PDF </p>
                     <div class="upload-actions row row-center">
                         <label class="button1">
                             Upload image
                             <input type="file" accept="image/*,.pdf" id="fileInput" hidden />
                         </label>
-                        <!--doesn't work yet D:-->
-                        <button class="button2" id="cameraButton"> Take photo </button>
                     </div>
-                    <div class="upload-tips row-center row row-lg">
-                        <span> Good lighting </span>
-                        <span> Straight angle </span>
-                        <span> Single page </span>
-                    </div>
-                </div>
-                <h3>or</h3>
-                <div id="assignmentPrompt" class="prompt">
-                    <h2> Type your assignment description </h2>
-                    <p> Paste or type the assignment prompt if you do not have a photo. </p>
-                    <div class="upload-actions row row-center">
-                        <textarea id="assignmentPromptInput" rows="5" placeholder="Enter assignment description"></textarea>
-                    </div>
-                    <button class="button1" type="button" id="givePromptButton">
-                        Create Assignment
-                    </button>
                 </div>
             </div>
         </section>

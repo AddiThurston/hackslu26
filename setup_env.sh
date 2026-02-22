@@ -17,6 +17,7 @@ fi
 python -m pip install --upgrade pip
 python -m pip install flask google-cloud-vision
 python -m pip install -q -U google-genai
+python -m pip install canvasapi
 
 echo "Virtual environment ready in .venv"
 echo "Activate with:"
