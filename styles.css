@@ -1,7 +1,9 @@
+/* Base sizing for predictable layouts. */
 * {
   box-sizing: border-box;
 }
 
+/* Global typography and background. */
 body {
   margin: 0;
   font-family: "Inter", "Segoe UI", system-ui, -apple-system, sans-serif;
@@ -9,6 +11,7 @@ body {
   background: #f5f7fb;
 }
 
+/* Theme tokens for consistent color usage. */
 :root {
   --primary: #2f5bff;
   --primary-dark: #1c3fcc;
@@ -20,6 +23,58 @@ body {
   --danger: #dc2626;
 }
 
+/* Utility layout helpers for consistent spacing. */
+.row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.row-center {
+  justify-content: center;
+}
+
+.row-between {
+  justify-content: space-between;
+}
+
+.row-wrap {
+  flex-wrap: wrap;
+}
+
+.row-sm {
+  gap: 8px;
+}
+
+.row-lg {
+  gap: 16px;
+}
+
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.grid {
+  display: grid;
+  gap: 24px;
+}
+
+.upload-zone {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.grid-review {
+  grid-template-columns: 1.05fr 1.4fr;
+}
+
+.grid-post {
+  grid-template-columns: 1.2fr 1fr;
+}
+
+/* App header layout and sticky behavior. */
 header.top-bar {
   display: flex;
   align-items: center;
@@ -37,31 +92,29 @@ header.top-bar {
   letter-spacing: 0.3px;
 }
 
-.top-links {
-  display: flex;
-  gap: 12px;
-}
-
+/* Main content width and padding. */
 .container {
   max-width: 1080px;
   margin: 32px auto 48px;
   padding: 0 24px;
 }
 
-.hero {
+/* Page intro. */
+.instructions {
   margin-bottom: 24px;
 }
 
-.hero h1 {
+.instructions h1 {
   margin: 0 0 8px;
   font-size: 28px;
 }
 
-.hero p {
+.instructions p {
   margin: 0;
   color: var(--muted);
 }
 
+/* 3-step progress indicator. */
 .stepper {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -86,6 +139,7 @@ header.top-bar {
   box-shadow: 0 0 0 2px rgba(47, 91, 255, 0.1);
 }
 
+/* Step number badge. */
 .step-index {
   background: var(--secondary);
   color: var(--primary);
@@ -105,12 +159,7 @@ header.top-bar {
   box-shadow: 0 12px 24px rgba(13, 27, 42, 0.05);
 }
 
-.upload-grid {
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  gap: 24px;
-}
-
+/* Upload dropzone styling + active drag state. */
 .upload-dropzone {
   border: 2px dashed #c7d3e8;
   padding: 32px;
@@ -124,6 +173,7 @@ header.top-bar {
   background: #eef2ff;
 }
 
+/* Upload panel micro UI. */
 .upload-icon {
   font-size: 32px;
   margin-bottom: 12px;
@@ -131,41 +181,17 @@ header.top-bar {
 
 .upload-actions {
   margin: 20px 0 14px;
-  display: flex;
-  justify-content: center;
-  gap: 12px;
 }
 
 .upload-tips {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
   color: var(--muted);
   font-size: 13px;
 }
 
-.trust-card {
-  background: #f0f4ff;
-  border-radius: 16px;
-  padding: 20px;
-  border: 1px solid #d6e1ff;
-}
-
+/* Secondary text utility. */
 .mini-muted {
   color: var(--muted);
   font-size: 13px;
-}
-
-.review-grid {
-  display: grid;
-  grid-template-columns: 1.05fr 1.4fr;
-  gap: 24px;
-}
-
-.image-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
 }
 
 .image-preview {
@@ -175,35 +201,27 @@ header.top-bar {
   min-height: 320px;
   display: grid;
   place-items: center;
+  overflow: hidden;
 }
 
 .image-placeholder {
   color: var(--muted);
 }
 
-.image-tools {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
+.image-preview img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  display: block;
 }
 
-.confidence-note {
-  font-size: 13px;
-  color: var(--muted);
+.image-preview img[hidden] {
+  display: none;
 }
 
-.form-panel {
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-}
-
-.panel-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
+/* Attention badge for review issues. */
 .issues-pill {
   background: #fff4e6;
   color: var(--warning);
@@ -213,6 +231,7 @@ header.top-bar {
   font-weight: 600;
 }
 
+/* Field container card. */
 .field-card {
   border: 1px solid var(--border);
   border-radius: 12px;
@@ -223,12 +242,15 @@ header.top-bar {
   gap: 8px;
 }
 
-.field-card label {
+/* Field labels and pseudo-labels. */
+.field-card label,
+.field-card .field-label {
   font-size: 13px;
   font-weight: 600;
   color: #1f2a37;
 }
 
+/* Align control + confidence chip. */
 .field-row {
   display: grid;
   grid-template-columns: 1fr auto;
@@ -236,6 +258,7 @@ header.top-bar {
   align-items: center;
 }
 
+/* Base inputs and textareas. */
 input,
 textarea {
   width: 100%;
@@ -246,12 +269,14 @@ textarea {
   font-family: inherit;
 }
 
+/* Inline validation hint. */
 .field-hint {
   margin: 0;
   font-size: 12px;
   color: var(--danger);
 }
 
+/* Confidence chips. */
 .chip {
   padding: 4px 10px;
   border-radius: 999px;
@@ -274,28 +299,12 @@ textarea {
   color: var(--danger);
 }
 
+/* AI suggestion disclosure. */
 .ai-suggestions {
   border: 1px dashed var(--border);
   border-radius: 12px;
   padding: 12px;
   background: #f9fbff;
-}
-
-.action-row {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-}
-
-.post-grid {
-  display: grid;
-  grid-template-columns: 1.2fr 1fr;
-  gap: 24px;
-}
-
-.segmented {
-  display: flex;
-  gap: 8px;
 }
 
 .segmented-button {
@@ -312,12 +321,7 @@ textarea {
   border-color: var(--primary);
 }
 
-.toggle-row {
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-between;
-}
-
+/* Canvas-style assignment preview. */
 .preview-card {
   background: #f7f9ff;
   border-radius: 16px;
@@ -328,6 +332,7 @@ textarea {
   gap: 16px;
 }
 
+/* Preview content hierarchy. */
 .preview-title {
   font-weight: 700;
   margin-bottom: 6px;
@@ -339,6 +344,7 @@ textarea {
   margin-bottom: 10px;
 }
 
+/* Success confirmation card. */
 .success-card {
   padding: 12px;
   border-radius: 12px;
@@ -352,9 +358,10 @@ textarea {
   margin: 0 0 6px;
 }
 
-.primary-button,
-.secondary-button,
-.ghost-button {
+/* Primary/secondary/ghost button base styles. */
+.button1,
+.button2,
+.button3 {
   border: none;
   border-radius: 10px;
   padding: 10px 16px;
@@ -363,30 +370,25 @@ textarea {
   font-size: 14px;
 }
 
-.primary-button {
+.button1 {
   background: var(--primary);
   color: #ffffff;
 }
 
-.primary-button:hover {
+.button1:hover {
   background: var(--primary-dark);
 }
 
-.secondary-button {
+/* Secondary and neutral button styles. */
+.button2 {
   background: #ffffff;
   border: 1px solid var(--border);
 }
 
-.ghost-button {
+.button3 {
   background: transparent;
   color: #1f2a37;
   border: 1px solid var(--border);
-}
-
-.status-pill {
-  display: flex;
-  align-items: center;
-  gap: 6px;
 }
 
 .status-good {
@@ -394,6 +396,7 @@ textarea {
   font-weight: 600;
 }
 
+/* Posting progress indicator. */
 .progress {
   display: none;
   align-items: center;
@@ -401,6 +404,7 @@ textarea {
   margin-top: 12px;
 }
 
+/* Simple progress bar. */
 .progress-bar {
   height: 6px;
   width: 160px;
@@ -408,6 +412,7 @@ textarea {
   background: linear-gradient(90deg, var(--primary), #9eb2ff);
 }
 
+/* Toggle switch visuals. */
 .switch {
   position: relative;
   display: inline-block;
@@ -450,10 +455,12 @@ textarea {
   transform: translateX(20px);
 }
 
+/* Shared hidden state for panels. */
 .step-panel.is-hidden {
   display: none;
 }
 
+/* Footer microcopy. */
 .footer {
   text-align: center;
   padding: 24px 12px 40px;
@@ -461,10 +468,11 @@ textarea {
   font-size: 13px;
 }
 
+/* Responsive layout changes for tablets/phones. */
 @media (max-width: 900px) {
-  .upload-grid,
-  .review-grid,
-  .post-grid {
+  .grid-upload,
+  .grid-review,
+  .grid-post {
     grid-template-columns: 1fr;
   }
 
@@ -478,7 +486,7 @@ textarea {
     gap: 10px;
   }
 
-  .top-links {
-    flex-wrap: wrap;
-  }
+.nav-links {
+  flex-wrap: wrap;
+}
 }

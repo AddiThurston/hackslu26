@@ -1,10 +1,19 @@
-const steps = Array.from(document.querySelectorAll(".step"));
-const panels = Array.from(document.querySelectorAll(".step-panel"));
+const steps = Array.from(document.querySelectorAll(".step")); // store all the steps
+const panels = Array.from(document.querySelectorAll(".step-panel")); // store all the step panels
 const fileInput = document.getElementById("fileInput");
 const dropzone = document.getElementById("dropzone");
 const postButton = document.getElementById("postButton");
+const retakeButton = document.getElementById("retake-button");
+const uploadedImage = document.getElementById("uploadedImage");
 const postProgress = document.getElementById("postProgress");
 const successCard = document.getElementById("successCard");
+const assignmentDescriptionInput = document.getElementById("assignmentDescription");
+const courseNameInput = document.getElementById("courseName");
+const assignmentTitleInput = document.getElementById("assignmentTitle");
+const assignmentTypeInput = document.getElementById("assignmentType");
+const assignmentPointsInput = document.getElementById("assignmentPoints");
+const assignmentStartInput = document.getElementById("assignmentStart");
+const assignmentDueDateInput = document.getElementById("assignmentDueDate");
 
 const setStep = (step) => {
   steps.forEach((item) => {
@@ -40,12 +49,48 @@ const showUploadFeedback = (name) => {
   }
 };
 
+const uploadToVision = async (file) => {
+  const formData = new FormData();
+  formData.append("image", file);
+  const endpoint = "http://127.0.0.1:5000/scan";
+
+  try {
+    const response = await fetch(endpoint, {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      throw new Error(`Vision request failed: ${response.status}`);
+    }
+
+    const data = await response.json();
+    if (assignmentDescriptionInput && data.text) {
+      const fields = data.text.split("|");
+      courseNameInput.value = fields[0];
+      assignmentTitleInput.value = fields[1];
+      assignmentTypeInput.value = fields[2];
+      assignmentDescriptionInput.value = fields[3];
+      assignmentPointsInput.value = fields[4];
+      assignmentStartInput.value = fields[5];
+      assignmentDueDateInput.value = fields[6];
+      console.log(fields);
+    }
+  } catch (error) {
+    console.error("Vision upload failed", error);
+  }
+};
+
 if (fileInput) {
   fileInput.addEventListener("change", (event) => {
     const file = event.target.files[0];
     if (file) {
+      uploadedImage.src = URL.createObjectURL(file);
+      uploadedImage.removeAttribute("hidden");
+      retakeButton.removeAttribute("hidden");
       showUploadFeedback(file.name);
       setStep(2);
+      uploadToVision(file);
     }
   });
 }
@@ -67,6 +112,7 @@ if (dropzone) {
     if (file) {
       showUploadFeedback(file.name);
       setStep(2);
+      uploadToVision(file);
     }
   });
 }
