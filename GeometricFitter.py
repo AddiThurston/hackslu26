@@ -50,8 +50,6 @@ class GeometricFitter:
 
                 corrected_image = cv.warpPerspective(image, transformation_matrix, (widthPx, heightPx))
 
-                corrected_image = Image.fromarray(corrected_image, mode='RGB')
-
                 return corrected_image
 
 
