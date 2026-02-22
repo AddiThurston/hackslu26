@@ -2,7 +2,7 @@
 
 ## Canvas Physical Document Scanner
 
-Collaborators: Addison Thurston, Henry Morgan, Henry Beblo, Carter DeLargy
+Collaborators: Addison Thurston, Henry Beblo, Henry Morgan, Carter DeLargy
 
 ### What It Does:
 
@@ -20,4 +20,5 @@ This formatted text is then parsed and passed through to the Canvas API, where i
 
 ## What Is Needed?
 
-API keys for 'Google Cloud Vision' and 'Gemini Pro 2.5' are needed.
+API keys for 'Canvas', 'Google Cloud Vision', and a Gemini model are needed (we used 'Gemini Pro 2.5' because it had the most significany free quota).
+
