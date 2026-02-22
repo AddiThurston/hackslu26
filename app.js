@@ -26,6 +26,9 @@ const apiKeyInput = document.getElementById("apiKeyInput");
 const loginButton = document.getElementById("loginButton");
 const logoutButton = document.getElementById("logoutButton");
 const pdfInput = document.getElementById("pdfInput");
+const previewTitle = document.getElementById("previewTitle");
+const previewDescription = document.getElementById("previewDescription");
+const previewDueDate = document.getElementById("previewDueDate");
 const submissionTypeButtons = Array.from(
     document.querySelectorAll("[data-submission]")
 );
@@ -43,6 +46,12 @@ const setStep = (step) => {
     panels.forEach((panel) => {
         panel.classList.toggle("is-hidden", panel.dataset.panel !== String(step));
     });
+    if (step == 3) {
+        previewTitle.textContent = assignmentTitleInput.value;
+        previewDescription.textContent = assignmentDescriptionInput.value;
+        previewDueDate.textContent = assignmentDueDateInput.value;
+        console.log('test');
+    }
 };
 
 const makeQuiz = async () => {
