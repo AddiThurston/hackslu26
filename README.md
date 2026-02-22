@@ -1,6 +1,6 @@
 # hackslu26
 
-## Canvas Physical Document Scanner
+## CanvasCurator
 
 Collaborators: Addison Thurston, Henry Beblo, Henry Morgan, Carter DeLargy
 
@@ -18,7 +18,7 @@ This extracted text is then processed and formatted (with parameters separated w
 
 This formatted text is then parsed and passed through to the Canvas API, where it can be published on Canvas.
 
-## What Is Needed?
+### What Is Needed?
 
 API keys for 'Canvas', 'Google Cloud Vision', and a Gemini model are needed (we used 'Gemini Pro 2.5' because it had the most significany free quota).
 
