@@ -57,7 +57,7 @@ if __name__ == "__main__":
     i = 0
     input = ""
     for filename in os.listdir(folder_path):
-        if i >= 10:
+        if i >= 20:
             break
         i += 1
         file_path = os.path.join(folder_path, filename)
