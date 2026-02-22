@@ -20,5 +20,5 @@ This formatted text is then parsed and passed through to the Canvas API, where i
 
 ### What Is Needed?
 
-API keys for 'Canvas', 'Google Cloud Vision', and a Gemini model are needed (we used 'Gemini Pro 2.5' because it had the most significany free quota).
+API keys for 'Canvas', 'Google Cloud Vision', and a Gemini model are needed (we used 'Gemini Pro 2.5' because it had the largest free quota).
 
