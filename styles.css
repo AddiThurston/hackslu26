@@ -226,6 +226,14 @@ header.top-bar {
   resize: vertical;
 }
 
+#quizQuestions .field-card {
+  width: 100%;
+}
+
+#quizQuestions {
+  width: 100%;
+}
+
 /* Secondary text utility. */
 .mini-muted {
   color: var(--muted);

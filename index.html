@@ -72,8 +72,6 @@
                             Upload image
                             <input type="file" accept="image/*,.pdf" id="fileInput" hidden />
                         </label>
-                        <!--doesn't work yet D:-->
-                        <button class="button2" id="cameraButton"> Take photo </button>
                     </div>
                     <div class="upload-tips row-center row row-lg">
                         <span> Good lighting </span>
@@ -115,66 +113,63 @@
                 </div>
 
                 <!-- Check/Enter Assignment Details -->
-                <div class="stack" hidden id="review-info-panel">
-                    <div class="row row-between">
-                        <h2> Confirm extracted details </h2>
-                        <div class="issues-pill" hidden> 2 items need review </div>
-                    </div>
+                <div class="row row-between">
+                    <h2> Confirm extracted details </h2>
+                </div>
 
-                    <!-- Assignment Title -->
-                    <div class="field-card">
-                        <label for="assignmentTitle"> Assignment Title </label>
-                        <div class="field-row">
-                            <input id="assignmentTitle" type="text" value="" placeholder="Enter assignment title" />
-                        </div>
+                <!-- Assignment Title -->
+                <div class="field-card">
+                    <label for="assignmentTitle"> Assignment Title </label>
+                    <div class="field-row">
+                        <input id="assignmentTitle" type="text" value="" placeholder="Enter assignment title" />
                     </div>
-                    <!-- Assignment Type -->
-                    <div class="field-card">
-                        <label for="assignmentType"> Assignment Group </label>
-                        <div class="field-row">
-                            <input id="assignmentType" type="text" value="" placeholder="Enter assignment group" />
-                        </div>
+                </div>
+                <!-- Assignment Type -->
+                <div class="field-card">
+                    <label for="assignmentType"> Assignment Group </label>
+                    <div class="field-row">
+                        <input id="assignmentType" type="text" value="" placeholder="Enter assignment group" />
                     </div>
+                </div>
 
-                    <!-- description-->
-                    <div class="field-card">
-                        <label for="assignmentDescription"> Description </label>
-                        <div class="field-row">
-                            <textarea id="assignmentDescription" rows="3"
-                                placeholder="Enter assignment description"></textarea>
-                        </div>
+                <!-- description-->
+                <div class="field-card">
+                    <label for="assignmentDescription"> Description </label>
+                    <div class="field-row">
+                        <textarea id="assignmentDescription" rows="3"
+                            placeholder="Enter assignment description"></textarea>
                     </div>
+                </div>
 
-                    <!-- pt value -->
-                    <div class="field-card">
-                        <label for="assignmentPoints"> Points </label>
-                        <div class="field-row">
-                            <input id="assignmentPoints" type="number" placeholder="Enter point value" />
-                        </div>
+                <!-- pt value -->
+                <div class="field-card">
+                    <label for="assignmentPoints"> Points </label>
+                    <div class="field-row">
+                        <input id="assignmentPoints" type="number" placeholder="Enter point value" />
                     </div>
+                </div>
 
-                    <!-- start date -->
-                    <div class="field-card">
-                        <label for="assignmentStart"> Start Date </label>
-                        <div class="field-row">
-                            <input id="assignmentStart" type="date" />
-                        </div>
+                <!-- start date -->
+                <div class="field-card">
+                    <label for="assignmentStart"> Start Date </label>
+                    <div class="field-row">
+                        <input id="assignmentStart" type="date" />
                     </div>
+                </div>
 
-                    <!-- end(due) date -->
-                    <div class="field-card">
-                        <label for="assignmentDueDate"> End Date </label>
-                        <div class="field-row">
-                            <input id="assignmentDueDate" type="date" />
-                        </div>
-                        <p class="field-hint"> Please verify the due date. </p>
+                <!-- end(due) date -->
+                <div class="field-card">
+                    <label for="assignmentDueDate"> End Date </label>
+                    <div class="field-row">
+                        <input id="assignmentDueDate" type="date" />
                     </div>
+                    <p class="field-hint"> Please verify the due date. </p>
+                </div>
 
 
-                    <div class="row">
-                        <button class="button1" data-next="3"> Create Canvas assignment </button>
-                        <button class="button3" data-back="1"> Back to upload </button>
-                    </div>
+                <div class="row">
+                    <button class="button1" data-next="3"> Create Canvas assignment </button>
+                    <button class="button3" data-back="1"> Back to upload </button>
                 </div>
             </div>
         </section>
@@ -232,7 +227,7 @@
     </main>
 
     <footer class="footer">
-        <span>Built for quick posting with review-first safeguards.</span>
+        <span>CanvasCurator by Addison Thurston, Henry Morgan, Henry Beblo, Carter DeLargy.</span>
     </footer>
 
     <script src="app.js"></script>

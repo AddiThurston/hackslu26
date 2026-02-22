@@ -9,6 +9,7 @@ API_URL = "https://canvas.slu.edu"
 API_KEY = os.getenv("CANVAS_API_KEY")
 API_KEY_MISSING = "Canvas API key not set."
 CANVAS_REQUEST_FAILED = "Canvas request failed"
+NO_COURSE_SELECTED = "No course selected."
 
 app = Flask(__name__)
 selected_course = {"id": None, "name": None}
@@ -145,6 +146,40 @@ def normalize_due_at(value):
             return value
     return value
 
+def build_quiz_question(question):
+    question_type = (question.get("type") or "").strip().lower()
+    valid_types = {
+        "multiple_choice_question",
+        "essay_question",
+        "true_false_question",
+        "short_answer_question",
+    }
+    if question_type not in valid_types:
+        question_type = "essay_question"
+    answers_text = question.get("answers") or ""
+    answers = [
+        answer.strip()
+        for answer in answers_text.split(",")
+        if answer.strip()
+    ]
+    payload = {
+        "question_name": question.get("title") or "Question",
+        "question_text": question.get("content") or "",
+        "question_type": question_type,
+    }
+    if question_type == "multiple_choice_question" and answers:
+        payload["answers"] = [
+            {"text": answer, "weight": 100 if index == 0 else 0}
+            for index, answer in enumerate(answers)
+        ]
+    elif question_type == "true_false_question":
+        is_true = answers_text.strip().lower() in {"true", "t", "yes", "1"}
+        payload["answers"] = [
+            {"text": "True", "weight": 100 if is_true else 0},
+            {"text": "False", "weight": 0 if is_true else 100},
+        ]
+    return payload
+
 @app.route("/postAssignment", methods=["POST", "OPTIONS"])
 def post_assignment():
     if request.method == "OPTIONS":
@@ -164,10 +199,9 @@ def post_assignment():
     publish_immediately = payload.get("publishImmediately")
     if publish_immediately is None:
         publish_immediately = True
-    print(course_id, assignment_name, assignment_description, assignment_points, assignment_due)
     
     if not course_id:
-        return jsonify({"error": "No course selected."}), 400
+        return jsonify({"error": NO_COURSE_SELECTED}), 400
 
     if assignment_points == "":
         assignment_points = None
@@ -205,6 +239,39 @@ def post_assignment():
             assignment_payload["allowed_extensions"] = ['docx', 'doc', 'pdf']
         new_assignment = course.create_assignment(assignment_payload)
         return jsonify({"ok": True, "assignmentId": new_assignment.id})
+    except Exception as error:
+        return jsonify({"error": CANVAS_REQUEST_FAILED, "details": str(error)}), 500
+
+@app.route("/postQuiz", methods=["POST", "OPTIONS"])
+def post_quiz():
+    if request.method == "OPTIONS":
+        return make_response("", 204)
+
+    canvas = get_canvas_client()
+    if not canvas:
+        return jsonify({"error": API_KEY_MISSING}), 400
+    payload = request.get_json(silent=True) or {}
+    course_id = payload.get("courseId") or selected_course.get("id")
+    quiz_title = payload.get("quizTitle") or "Generated quiz"
+    questions = payload.get("questions") or []
+    publish_immediately = payload.get("publishImmediately")
+    if publish_immediately is None:
+        publish_immediately = True
+    if not course_id:
+        return jsonify({"error": NO_COURSE_SELECTED}), 400
+    if not questions:
+        return jsonify({"error": "No quiz questions provided."}), 400
+
+    try:
+        course = canvas.get_course(course_id)
+        quiz = course.create_quiz({
+            "title": quiz_title,
+            "published": bool(publish_immediately),
+        })
+        for question in questions:
+            quiz.create_question(question=build_quiz_question(question))
+
+        return jsonify({"ok": True, "quizId": quiz.id})
     except Exception as error:
         return jsonify({"error": CANVAS_REQUEST_FAILED, "details": str(error)}), 500
 

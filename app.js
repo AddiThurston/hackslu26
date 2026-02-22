@@ -25,10 +25,16 @@ const assignmentsList = document.getElementById("assignments-list");
 const apiKeyInput = document.getElementById("apiKeyInput");
 const loginButton = document.getElementById("loginButton");
 const logoutButton = document.getElementById("logoutButton");
+const pdfInput = document.getElementById("pdfInput");
 const submissionTypeButtons = Array.from(
     document.querySelectorAll("[data-submission]")
 );
 let selectedSubmissionType = "online";
+let generatedQuizQuestions = [];
+let generatedQuizTitle = "";
+
+
+const cachedApiKey = apiKeyInput ? localStorage.getItem("canvasApiKey") : null;
 
 const setStep = (step) => {
     steps.forEach((item) => {
@@ -37,6 +43,108 @@ const setStep = (step) => {
     panels.forEach((panel) => {
         panel.classList.toggle("is-hidden", panel.dataset.panel !== String(step));
     });
+};
+
+const makeQuiz = async () => {
+    if (!pdfInput || !pdfInput.files || !pdfInput.files[0]) {
+        console.error("Missing lecture notes PDF.");
+        return;
+    }
+    const formData = new FormData();
+    formData.append("lectureNotes", pdfInput.files[0]);
+    const response = await fetch("http://127.0.0.1:5000/makeQuiz", {
+        method: "POST",
+        body: formData,
+    });
+    const data = await response.json();
+    const quizQuestionsContainer = document.getElementById("quizQuestions");
+    const quizTitle = document.getElementById("quizTitle");
+    if (!quizQuestionsContainer) {
+        return;
+    }
+    if (quizTitle && pdfInput.files[0]) {
+        const rawName = pdfInput.files[0].name || "Generated quiz";
+        generatedQuizTitle = rawName.replace(/\.pdf$/i, "");
+        quizTitle.textContent = generatedQuizTitle;
+    }
+    const rawParts = (data.quiz || "")
+        .split("|")
+        .map((part) => part.trim())
+        .filter((part) => part.length > 0);
+    if (rawParts.length % 4 !== 0) {
+        console.debug("Quiz parse: unexpected part count", rawParts.length);
+    }
+    const questions = [];
+    for (let i = 0; i < rawParts.length; i += 4) {
+        questions.push({
+            title: rawParts[i] || "Question",
+            content: rawParts[i + 1] || "",
+            type: rawParts[i + 2] || "essay_question",
+            answers: rawParts[i + 3] || "",
+        });
+    }
+    generatedQuizQuestions = questions;
+    quizQuestionsContainer.innerHTML = questions
+        .map((question, index) => {
+            const answers = question.answers
+                ? question.answers
+                      .split(",")
+                      .map((answer) => answer.trim())
+                      .filter((answer) => answer.length > 0)
+                : [];
+            return `
+            <div class="field-card">
+                <div class="row row-between">
+                    <h3>Question ${index + 1}: ${question.title}</h3>
+                    <span class="mini-muted">${question.type}</span>
+                </div>
+                <p>${question.content}</p>
+                ${
+                    answers.length
+                        ? `<div class="stack">
+                            ${answers
+                                .map(
+                                    (answer) =>
+                                        `<p class="mini-muted">Answer: ${answer}</p>`
+                                )
+                                .join("")}
+                        </div>`
+                        : ""
+                }
+            </div>
+        `;
+        })
+        .join("");
+    setStep(2);
+};
+
+const postQuiz = async () => {
+    if (!coursesSelect || !coursesSelect.value) {
+        console.error("Quiz post failed: no course selected");
+        return;
+    }
+    if (!generatedQuizQuestions.length) {
+        console.error("Quiz post failed: no generated questions");
+        return;
+    }
+    try {
+        const response = await fetch("http://127.0.0.1:5001/postQuiz", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+                courseId: coursesSelect.value,
+                quizTitle: generatedQuizTitle || "Generated quiz",
+                questions: generatedQuizQuestions,
+                publishImmediately: publishToggle ? publishToggle.checked : true,
+            }),
+        });
+        if (!response.ok) {
+            const errorBody = await response.json().catch(() => ({}));
+            console.error("Quiz post failed", errorBody);
+        }
+    } catch (error) {
+        console.error("Quiz post failed", error);
+    }
 };
 
 document.querySelectorAll("[data-next]").forEach((button) => {
@@ -67,12 +175,26 @@ submissionTypeButtons.forEach((button) => {
     });
 });
 
+if (assignmentDescriptionInput) {
+    assignmentDescriptionInput.addEventListener("input", () => {
+        if (assignmentDescriptionInput.value.trim() && noAssignmentDescriptionPanel) {
+            noAssignmentDescriptionPanel.setAttribute("hidden", true);
+        }
+    });
+}
+
 function setloginstatus(isLoggedIn) {
     if (!canvasStatus) {
         return;
     }
+    console.log(localStorage.getItem("canvasApiKey"));
     if (isLoggedIn) {
+        if (window.location.pathname.includes('login.html')) {
         setCanvasStatus("status-good", "Logged in");
+      } else {
+        setCanvasStatus("status-warning", "Loading...");
+      }
+        
     } else {
         setCanvasStatus("status-warning", "Logged out");
     }
@@ -97,7 +219,7 @@ if (loginButton) {
                 setloginstatus(false);
                 return;
             }
-            loadCourses();
+            setloginstatus(true);
         } catch (error) {
             console.error("Login failed", error);
             setloginstatus(false);
@@ -135,7 +257,6 @@ if (logoutButton) {
     });
 }
 
-const cachedApiKey = apiKeyInput ? localStorage.getItem("canvasApiKey") : null;
 if (cachedApiKey && apiKeyInput) {
     apiKeyInput.value = cachedApiKey;
     fetch("http://127.0.0.1:5001/setApiKey", {
@@ -269,6 +390,9 @@ const uploadToVision = async (file) => {
     const formData = new FormData();
     formData.append("image", file);
     const endpoint = "http://127.0.0.1:5000/scan";
+    if (noAssignmentDescriptionPanel) {
+        noAssignmentDescriptionPanel.setAttribute("hidden", true);
+    }
 
     try {
         const response = await fetch(endpoint, {
@@ -305,6 +429,9 @@ const uploadToVision = async (file) => {
 const givePrompt = async () => {
     if (!assignmentPromptInput.value) {
         return;
+    }
+    if (noAssignmentDescriptionPanel) {
+        noAssignmentDescriptionPanel.setAttribute("hidden", true);
     }
     try {
         const response = await fetch("http://127.0.0.1:5000/givePrompt", {
@@ -461,6 +588,16 @@ if (fileInput) {
     });
 }
 
+if (pdfInput) {
+  pdfInput.addEventListener("change", (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      makeQuiz(file);
+      setStep(2);
+    }
+  });
+}
+
 if (dropzone) {
     dropzone.addEventListener("dragover", (event) => {
         event.preventDefault();
@@ -502,16 +639,28 @@ if (coursesSelect) {
 
 if (postButton) {
     postButton.addEventListener("click", () => {
-        postProgress.style.display = "flex";
-        successCard.style.display = "none";
+        if (postProgress) {
+            postProgress.style.display = "flex";
+        }
+        if (successCard) {
+            successCard.style.display = "none";
+        }
         postButton.disabled = true;
 
         setTimeout(() => {
-            postProgress.style.display = "none";
-            successCard.style.display = "block";
+            if (postProgress) {
+                postProgress.style.display = "none";
+            }
+            if (successCard) {
+                successCard.style.display = "block";
+            }
             postButton.disabled = false;
         }, 1600);
-        postAssignment();
+        if (window.location.pathname.includes("quiz.html")) {
+            postQuiz();
+        } else {
+            postAssignment();
+        }
     });
 }
 

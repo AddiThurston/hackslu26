@@ -18,6 +18,10 @@ python -m pip install --upgrade pip
 python -m pip install flask google-cloud-vision
 python -m pip install -q -U google-genai
 python -m pip install canvasapi
+python -m pip install pdf2image
+python -m pip install opencv-python
+python -m pip install pillow
+
 
 echo "Virtual environment ready in .venv"
 echo "Activate with:"
