@@ -1,7 +1,7 @@
 # hackslu26
 
 ## CanvasCurator
-## LIVE AT: [canvascurator.ddns.net](https://www.canvascurator.ddns.net)
+## LIVE AT: [canvascurator.ddns.net](https://canvascurator.ddns.net/login.html)
 Collaborators: Addison Thurston, Henry Beblo, Henry Morgan, Carter DeLargy
 
 ### What It Does:
