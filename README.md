@@ -4,11 +4,11 @@
 
 Collaborators: Addison Thurston, Henry Beblo, Henry Morgan, Carter DeLargy
 
-### What It Does:
+### 🦄🌈🦄 What It Does 🦄🌈🦄:
 
 Creates assignments/quizzes on Canvas based off of images/text prompts.
 
-### How Does It Work?
+### ✨😍✨How Does It Work✨😍✨?
 
 If an image is being entered, it's first taken and transformed via our Geometric Filter so that it's prepared to be read for AI. 
 
@@ -18,7 +18,7 @@ This extracted text is then processed and formatted (with parameters separated w
 
 This formatted text is then parsed and passed through to the Canvas API, where it can be published on Canvas.
 
-### What Is Needed?
+### 🫶💏🫶What Is Needed🫶💏🫶?
 
 API keys for 'Canvas', 'Google Cloud Vision', and a Gemini model are needed (we used 'Gemini Pro 2.5' because it had the most significany free quota).
 
