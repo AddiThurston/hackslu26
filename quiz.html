@@ -1,0 +1,223 @@
+<!doctype html>
+<!-- CanvasCurator by Addison Thurston, Henry Morgan, Henry Beblo, Carter DeLargy -->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CanvasCurator</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <!-- Header and nav bar -->
+    <header class="top-bar">
+        <div class="logo"> CanvasCurator </div>
+        <nav class="nav-links row row-wrap">
+            <a href="assignments.html">
+                <button class="button3">My Assignments</button>
+            </a>
+            <a href="index.html">
+                <button class="button3">Generate Assignment</button>
+            </a>
+            <a href="quiz.html">
+                <button class="button1">Generate Quiz</button>
+            </a>
+            <a href="login.html">
+                <button class="button3">Login/Logout</button>
+            </a>
+            <button class="button3 row">
+                Canvas: <span class="status-warning" id = "canvasStatus"> Loading... </span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Instructions and info -->
+        <section class="instructions">
+            <h1> Turn your lecture material into a Canvas quiz </h1>
+            <p> Upload a pdf of the material and review the extracted questions. </p>
+        </section>
+
+        <!-- Select the step in quiz creation -->
+        <section class="stepper">
+            <!-- Upload pic of quiz material -->
+            <div class="step is-active" data-step="1">
+                <span class="step-index"> 1 </span>
+                <span> Upload Quiz Material </span>
+            </div>
+
+            <!-- Refine/check quiz questions -->
+            <div class="step" data-step="2">
+                <span class="step-index"> 2 </span>
+                <span> Review &amp; Edit </span>
+            </div>
+
+            <!-- Post quiz -->
+            <div class="step" data-step="3">
+                <span class="step-index"> 3 </span>
+                <span> Post to Canvas </span>
+            </div>
+        </section>
+
+        <!-- Upload quiz material -->
+        <section class="card step-panel" data-panel="1">
+            <div class="stack">
+                <div id="dropzone" class="upload-dropzone">
+                    <div class="upload-icon"> ⬆ </div>
+                    <h2> Drag &amp; drop your lecture notes </h2>
+                    <p> Upload a PDF </p>
+                    <div class="upload-actions row row-center">
+                        <label class="button1">
+                            Upload image
+                            <input type="file" accept="image/*,.pdf" id="fileInput" hidden />
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Review assignment info step -->
+        <section data-panel="2" class="card step-panel is-hidden">
+            <div class="grid grid-review">
+                <div class="" id = "image-preview">
+                    <div class="image-preview">
+                        <img id="uploadedImage" src="" alt="" hidden />
+                    </div>
+                    <div class="row row-wrap row-sm">
+                        <button class="button3" data-back="1" id="retake-button" hidden> Retake Image </button>
+                    </div>
+                </div>
+
+                <!-- before the assignment description has been added -->
+                <div id="no-assignment-description-panel">
+                    <h1> No assignment description found </h1>
+                    <p> Please upload a photo or PDF of the assignment description </p>
+                    <button class="button1" data-back="1"> Provide Assignment Description </button>
+                </div>
+
+                <!-- Check/Enter Assignment Details -->
+                <div class="stack" hidden id="review-info-panel">
+                    <div class="row row-between">
+                        <h2> Confirm extracted details </h2>
+                        <div class="issues-pill" hidden> 2 items need review </div>
+                    </div>
+
+                    <!-- Assignment Title -->
+                    <div class="field-card">
+                        <label for="assignmentTitle"> Assignment Title </label>
+                        <div class="field-row">
+                            <input id="assignmentTitle" type="text" value="" placeholder="Enter assignment title" />
+                        </div>
+                    </div>
+                    <!-- Assignment Type -->
+                    <div class="field-card">
+                        <label for="assignmentType"> Assignment Group </label>
+                        <div class="field-row">
+                            <input id="assignmentType" type="text" value="" placeholder="Enter assignment group" />
+                        </div>
+                    </div>
+
+                    <!-- description-->
+                    <div class="field-card">
+                        <label for="assignmentDescription"> Description </label>
+                        <div class="field-row">
+                            <textarea id="assignmentDescription" rows="3"
+                                placeholder="Enter assignment description"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- pt value -->
+                    <div class="field-card">
+                        <label for="assignmentPoints"> Points </label>
+                        <div class="field-row">
+                            <input id="assignmentPoints" type="number" placeholder="Enter point value" />
+                        </div>
+                    </div>
+
+                    <!-- start date -->
+                    <div class="field-card">
+                        <label for="assignmentStart"> Start Date </label>
+                        <div class="field-row">
+                            <input id="assignmentStart" type="date" />
+                        </div>
+                    </div>
+
+                    <!-- end(due) date -->
+                    <div class="field-card">
+                        <label for="assignmentDueDate"> End Date </label>
+                        <div class="field-row">
+                            <input id="assignmentDueDate" type="date" />
+                        </div>
+                        <p class="field-hint"> Please verify the due date. </p>
+                    </div>
+
+
+                    <div class="row">
+                        <button class="button1" data-next="3"> Create Canvas assignment </button>
+                        <button class="button3" data-back="1"> Back to upload </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- finalize the post to canvas -->
+        <section class="card step-panel is-hidden" data-panel="3">
+            <div class="grid grid-post">
+                <div>
+                    <h2>Post to Canvas</h2>
+
+                    <!-- courses display -->
+                    <div class="field-card">
+                        <label for="courses"> Select a Course </label>
+                        <select id="courses" name="courses">
+                            <option value="apple">Loading Courses...</option>
+                        </select>
+                    </div>
+                    <div class="field-card">
+                        <span class="field-label">Submission type</span>
+                        <div class="row row-sm">
+                            <button class="segmented-button is-active" data-submission="online">Online</button>
+                            <button class="segmented-button" data-submission="none">No submission</button>
+                            <button class="segmented-button" data-submission="on_paper">On paper</button>
+                        </div>
+                    </div>
+                    <div class="field-card row row-between">
+                        <label for="publishToggle">Publish immediately</label>
+                        <div class="switch">
+                            <input id="publishToggle" type="checkbox" checked />
+                            <span class="slider"></span>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <button class="button1" id="postButton">Post to Canvas</button>
+                        <button class="button3" data-back="2">Back to review</button>
+                    </div>
+                    <div class="progress" id="postProgress">
+                        <div class="progress-bar"></div>
+                        <span>Posting...</span>
+                    </div>
+                </div>
+                <div class="preview-card">
+                    <h3>Assignment Preview</h3>
+                    <div>
+                        <div class="preview-title" id="previewTitle">Sample Title</div>
+                        <div class="preview-meta" id="previewDueDate">Due: Jan 01, 08:00 AM</div>
+                        <p id="previewDescription">Sample Description</p>
+                    </div>
+                    <div class="success-card" id="successCard">
+                        <h4>Posted successfully</h4>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>Built for quick posting with review-first safeguards.</span>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
