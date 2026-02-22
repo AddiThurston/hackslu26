@@ -39,8 +39,8 @@ class GeometricFitter:
                 rect = GeometricFitter.__sort_points__(pts)
 
                 # Letter paper aspect ratio
-                heightPx = 550
-                widthPx = 425
+                heightPx = 1100
+                widthPx = 850
 
                 # corrected_image = np.zeroes((1100,850), dtype="float32")
                 cor_im_corners = np.array([[0,0], [widthPx - 1,0], [widthPx - 1,heightPx - 1], [0,heightPx - 1]], dtype="float32" )
@@ -64,7 +64,7 @@ class GeometricFitter:
         cv.destroyAllWindows()
 
 if __name__ == "__main__":
-    image = cv.imread("Canvas Helper test image.webp")
+    image = cv.imread("GF_test_images/henry beblo2.webp")
 
     fittedImage = GeometricFitter.FitImage(image, 50, 150);
     cv.imshow("image", fittedImage)
