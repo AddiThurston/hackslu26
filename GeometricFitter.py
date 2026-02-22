@@ -52,18 +52,7 @@ class GeometricFitter:
 
                 corrected_image = Image.fromarray(corrected_image, mode='RGB')
 
-                byte_io = io.BytesIO()
-                corrected_image.save(byte_io, format="JPEG")
-
-                jpeg_bytes = byte_io.getvalue()
-                byte_io.close()
-
-                image_stream = io.BytesIO(jpeg_bytes)
-
-
-                ret2 = Image.open(image_stream)
-
-                return ret2
+                return corrected_image
 
 
 
