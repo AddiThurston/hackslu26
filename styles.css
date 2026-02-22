@@ -19,7 +19,7 @@ body {
   --border: #d9e2f0;
   --muted: #5e6a79;
   --success: #1f9d55;
-  --warning: #d97706;
+  --warning: #ff8800;
   --danger: #dc2626;
 }
 
@@ -50,10 +50,15 @@ body {
   gap: 16px;
 }
 
+[hidden] {
+  display: none !important;
+}
+
 .stack {
   display: flex;
   flex-direction: column;
   gap: 16px;
+  align-items: center;
 }
 
 .grid {
@@ -166,6 +171,16 @@ header.top-bar {
   border-radius: 16px;
   text-align: center;
   background: #f9fbff;
+  width: 100%;
+}
+
+.prompt {
+  border: 2px dashed #c7d3e8;
+  padding: 16px;
+  border-radius: 16px;
+  text-align: center;
+  background: #f9fbff;
+  width: 100%;
 }
 
 .upload-dropzone.is-dragover {
@@ -186,6 +201,29 @@ header.top-bar {
 .upload-tips {
   color: var(--muted);
   font-size: 13px;
+}
+
+.assignment-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: #d9e1f2;
+  display: flex;
+  flex-direction: row;
+  gap: 8px;
+  width: 100%;
+  justify-content: space-between;
+}
+
+#assignmentPrompt textarea {
+  width: 100%;
+  max-width: 640px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-family: inherit;
+  font-size: 14px;
+  resize: vertical;
 }
 
 /* Secondary text utility. */
@@ -242,6 +280,10 @@ header.top-bar {
   gap: 8px;
 }
 
+.field-card + .field-card {
+  margin-top: 12px;
+}
+
 /* Field labels and pseudo-labels. */
 .field-card label,
 .field-card .field-label {
@@ -258,8 +300,9 @@ header.top-bar {
   align-items: center;
 }
 
-/* Base inputs and textareas. */
+/* Base inputs, selects, and textareas. */
 input,
+select,
 textarea {
   width: 100%;
   border: 1px solid var(--border);
@@ -267,6 +310,26 @@ textarea {
   padding: 10px 12px;
   font-size: 14px;
   font-family: inherit;
+  background-color: #fff;
+}
+
+/* Custom select dropdown caret. */
+select {
+  appearance: none;
+  padding-right: 38px;
+  background-image: linear-gradient(45deg, transparent 50%, #6b7280 50%),
+    linear-gradient(135deg, #6b7280 50%, transparent 50%),
+    linear-gradient(to right, #e2e8f0, #e2e8f0);
+  background-position: calc(100% - 18px) 50%, calc(100% - 12px) 50%,
+    calc(100% - 36px) 50%;
+  background-size: 6px 6px, 6px 6px, 1px 18px;
+  background-repeat: no-repeat;
+}
+
+select:focus {
+  outline: none;
+  border-color: rgba(59, 130, 246, 0.6);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
 }
 
 /* Inline validation hint. */
@@ -391,9 +454,30 @@ textarea {
   border: 1px solid var(--border);
 }
 
+.courses {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
 .status-good {
   color: var(--success);
   font-weight: 600;
+}
+
+.status-warning {
+  color: var(--warning);
+  font-weight: 600;
+}
+
+.status-fail {
+  color: var(--danger);
+  font-weight: 600;
+}
+
+.button2 + .status-good {
+  background: var(--success);
+  color: #ffffff;
 }
 
 /* Posting progress indicator. */

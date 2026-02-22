@@ -9,8 +9,6 @@ app = Flask(__name__)
 
 def scan_image(image_path):
     client = vision.ImageAnnotatorClient()
-    #with open(image_path, 'rb') as image_file:
-    #    content = image_file.read()
     image = vision.Image(content=image_path)
     response = client.text_detection(image=image)
     if response.full_text_annotation:
@@ -54,6 +52,25 @@ def scan():
     else:
         text = "No text found in the image."
     return jsonify({"text": text})
-    
+
+@app.route("/givePrompt", methods=["POST", "OPTIONS"])
+def give_prompt():
+    if request.method == "OPTIONS":
+        return make_response("", 204)
+    if "assignmentPrompt" not in request.json:
+        return jsonify({"error": "Missing assignment prompt"}), 400
+
+    assignment_prompt = request.json["assignmentPrompt"]
+    ai_output = client.models.generate_content(
+        model="gemini-2.5-flash", contents= assignment_prompt + ''' given this text, can you break everything off into segments separated by a '|' 
+        that can be easily parsed so it can be processed and sent to a canvas API. 
+        i need, in order, the course name, an assignment name (come up with one if it isn't given), the assignment type (if this isn't given,
+        choose from the options 'Assignment', 'Reading', or 'Discussion'), a description for the assignment for the students (this will display on canvas for the assignment),
+        a point value (if one is given. leave blank if pass/fail),
+        a start date (if one is given, formatted yyyy-MM-dd and you can assume the year is 2026 if not given), 
+        a due date (if one is given, formatted yyyy-MM-dd and you can assume the year is 2026 if not given).  ''')
+    return jsonify({"text": ai_output.text})
+
+
 if __name__ == "__main__":
     app.run(host="127.0.0.1", port=5000, debug=True)

@@ -1,0 +1,66 @@
+<!doctype html>
+<!-- CanvasCurator by Addison Thurston, Henry Morgan, Henry Beblo, Carter DeLargy -->
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>CanvasCurator</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+
+<body>
+    <!-- Header and nav bar -->
+    <header class="top-bar">
+        <div class="logo"> CanvasCurator </div>
+        <nav class="nav-links row row-wrap">
+            <a href="assignments.html">
+                <button class="button1">My Assignments</button>
+            </a>
+            <a href="index.html">
+                <button class="button3">Generate Assignment</button>
+            </a>
+            <a href="quiz.html">
+                <button class="button3">Generate Quiz</button>
+            </a>
+            <a href="login.html">
+                <button class="button3">Login/Logout</button>
+            </a>
+            <button class="button3 row">
+                Canvas: <span class="status-warning" id = "canvasStatus"> Loading... </span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Instructions and info -->
+        <section class="instructions">
+            <h1> Manage your assignments </h1>
+            <p> All created assignments can be published/unpublished and deleted. </p>
+        </section>
+        <div class="stack">
+            <!-- courses display -->
+        <div class="field-card">
+            <label for="courses"> Select a Course </label>
+            <select id="courses" name="courses">
+                <option value="apple">Loading Courses...</option>
+            </select>
+        </div>
+
+        <ol id="assignments-list" class="stack">
+            <li class="assignment-card">Loading Assignments...</li>
+        </ol>
+
+        </div>
+        
+        </section>
+    </main>
+
+    <footer class="footer">
+        <span>Built for quick posting with review-first safeguards.</span>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+
+</html>
