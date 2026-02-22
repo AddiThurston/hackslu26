@@ -1,6 +1,7 @@
 import cv2 as cv
 import numpy as np
-
+from PIL import Image
+import io
 class GeometricFitter:
 
     @staticmethod
@@ -49,19 +50,25 @@ class GeometricFitter:
 
                 corrected_image = cv.warpPerspective(image, transformation_matrix, (widthPx, heightPx))
 
-                return corrected_image
+                corrected_image = Image.fromarray(corrected_image, mode='RGB')
+
+                byte_io = io.BytesIO()
+                corrected_image.save(byte_io, format="JPEG")
+
+                jpeg_bytes = byte_io.getvalue()
+                byte_io.close()
+
+                image_stream = io.BytesIO(jpeg_bytes)
+
+
+                ret2 = Image.open(image_stream)
+
+                return ret2
 
 
 
 
 
-
-
-
-        cv.imshow("Detected:", image)
-        cv.waitKey(0)
-
-        cv.destroyAllWindows()
 
 if __name__ == "__main__":
     image = cv.imread("Canvas Helper test image.webp")
